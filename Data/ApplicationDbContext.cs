@@ -5,7 +5,9 @@ namespace maihelper.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<LaboratoryWork> laboratoryWorks { get; set; } = null!;
+        public DbSet<Direction> Directions { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
            
