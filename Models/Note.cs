@@ -2,7 +2,7 @@
 
 namespace maihelper.Models
 {
-    public class Note
+    public class Note : IWithId
     {
         [Key]
         public int Id { get; set; }

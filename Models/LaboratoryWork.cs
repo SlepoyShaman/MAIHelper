@@ -2,7 +2,7 @@
 
 namespace maihelper.Models
 {
-    public class LaboratoryWork
+    public class LaboratoryWork : IWithId
     {
         [Key]
         public int Id { get; set; }
@@ -17,6 +17,5 @@ namespace maihelper.Models
         //Добавление отношения один к многим
         public int SubjectId { get; set; }
         public Subject subject { get; set; }
-
     }
 }

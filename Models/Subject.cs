@@ -2,7 +2,7 @@
 
 namespace maihelper.Models
 {
-    public class Subject
+    public class Subject : IWithId
     {
         [Key]
         public int Id { get; set; }
