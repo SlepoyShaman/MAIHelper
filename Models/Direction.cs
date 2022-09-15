@@ -8,6 +8,7 @@ namespace maihelper.Models
         public int Id { get; set; }
         public string? Code { get; set; }
 
+        //Добавление отношения многие к многим
         public List<Subject> Subjects { get; set; } = new List<Subject>();
     }
 }
