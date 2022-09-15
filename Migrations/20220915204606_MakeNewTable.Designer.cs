@@ -11,8 +11,8 @@ using maihelper.Data;
 namespace maihelper.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220915201102_first")]
-    partial class first
+    [Migration("20220915204606_MakeNewTable")]
+    partial class MakeNewTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,48 @@ namespace maihelper.Migrations
                     b.ToTable("Directions");
                 });
 
+            modelBuilder.Entity("maihelper.Models.LaboratoryWork", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DownloadFile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Listing")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OptionLab")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Teacher")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Views")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("laboratoryWorks");
+                });
+
             modelBuilder.Entity("maihelper.Models.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -83,6 +125,22 @@ namespace maihelper.Migrations
                         .HasForeignKey("SubjectsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("maihelper.Models.LaboratoryWork", b =>
+                {
+                    b.HasOne("maihelper.Models.Subject", "subject")
+                        .WithMany("laboratoryWorks")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("subject");
+                });
+
+            modelBuilder.Entity("maihelper.Models.Subject", b =>
+                {
+                    b.Navigation("laboratoryWorks");
                 });
 #pragma warning restore 612, 618
         }
