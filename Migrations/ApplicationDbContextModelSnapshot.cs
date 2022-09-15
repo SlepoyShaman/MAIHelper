@@ -5,11 +5,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using maihelper.Data;
 
-
-//12345678
-
-
-
 #nullable disable
 
 namespace maihelper.Migrations
