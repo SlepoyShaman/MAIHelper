@@ -11,15 +11,15 @@ namespace maihelper.Controllers
     [Route("[controller]")]
     public class HomeController : ControllerBase
     {
-        private readonly Repository _repository;
-        public HomeController(Repository repository)
+        private readonly IRepository _repository;
+        public HomeController(IRepository repository)
         {
             _repository = repository;
         }
 
-        private int LabsOnPageCount = 2;
-        private int NotesOnPageCount = 2;
-        private int TicketsOnPageCount = 7;
+        private readonly int LabsOnPageCount = 2;
+        private readonly int NotesOnPageCount = 2;
+        private readonly int TicketsOnPageCount = 7;
 
         [HttpPost]
         public IActionResult ViewIndexPage()
@@ -34,12 +34,11 @@ namespace maihelper.Controllers
             return Ok(ReturnModel);
         }
 
-        private List<T> GetLastElements<T>(int quantity) where T : class, IWithId
+        private IEnumerable<T> GetLastElements<T>(int quantity) where T : class, IWithId
         {
-            int lastIndex = _repository.GetAll<T>().Last().Id;
-            return _repository.GetAll<T>().Where(x => x.Id > lastIndex - quantity).ToList();
+            return _repository.GetAll<T>().OrderByDescending(x => x.Id).Take(quantity);
         }
-               
+
 
     }
 }

@@ -2,7 +2,7 @@
 
 namespace maihelper.Data
 {
-    public class Repository
+    public class Repository : IRepository
     {
         private readonly ApplicationDbContext _context;
         public Repository(ApplicationDbContext context)
@@ -17,7 +17,7 @@ namespace maihelper.Data
         public void RemoveByID<TEntity>(int Id) where TEntity : class, IWithId
         {
             TEntity element = GetById<TEntity>(Id);
-            if(element != null)
+            if (element != null)
             {
                 _context.Set<TEntity>().Remove(element);
             }
