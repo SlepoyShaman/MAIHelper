@@ -28,6 +28,4 @@ app.UseCors(q =>
             .WithOrigins("http://localhost:3000"));
 
 
-
-
 app.Run();
