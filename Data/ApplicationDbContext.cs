@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using maihelper.Models;
+using System.Xml.Linq;
 
 namespace maihelper.Data
 {
@@ -12,10 +13,9 @@ namespace maihelper.Data
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Note> Notes { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext (DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-           
+                
         }
-      
     }
 }

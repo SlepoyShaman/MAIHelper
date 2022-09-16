@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using maihelper.Data;
+using maihelper.Models;
 using Microsoft.Extensions.Configuration;
+using System.Reflection.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.EnsureDeleted();
+    context.Database.EnsureCreated();
+    DbInitializer.Initialize(context);
+}
+
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseCors(q =>
@@ -26,8 +38,5 @@ app.UseCors(q =>
             .AllowAnyMethod()
             .AllowCredentials()
             .WithOrigins("http://localhost:3000"));
-
-
-
 
 app.Run();

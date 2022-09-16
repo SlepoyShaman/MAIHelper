@@ -9,7 +9,7 @@ namespace maihelper.Models
         public string? Theme { get; set; }
 
         //Добавление отношения один к многим
-        public int SubjectID { get; set; }
+        public int SubjectId { get; set; }
         public Subject subject { get; set; }
     }
 }
