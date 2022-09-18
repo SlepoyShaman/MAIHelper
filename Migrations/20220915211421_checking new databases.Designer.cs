@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using maihelper.Data;
 
@@ -10,9 +11,10 @@ using maihelper.Data;
 namespace maihelper.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220915211421_checking new databases")]
+    partial class checkingnewdatabases
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,6 +68,9 @@ namespace maihelper.Migrations
                     b.Property<string>("DownloadFile")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Listing")
                         .HasColumnType("nvarchar(max)");
 
@@ -99,7 +104,7 @@ namespace maihelper.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("SubjectId")
+                    b.Property<int>("SubjectID")
                         .HasColumnType("int");
 
                     b.Property<string>("Theme")
@@ -107,7 +112,7 @@ namespace maihelper.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("SubjectID");
 
                     b.ToTable("Notes");
                 });
@@ -179,7 +184,7 @@ namespace maihelper.Migrations
                 {
                     b.HasOne("maihelper.Models.Subject", "subject")
                         .WithMany("Notes")
-                        .HasForeignKey("SubjectId")
+                        .HasForeignKey("SubjectID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
