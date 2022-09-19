@@ -1,9 +1,8 @@
 ﻿using maihelper.Data;
-using System.Collections.Generic;
-using maihelper.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using maihelper.Models.ExchangeModels;
+using maihelper.Models.DataModels;
+using maihelper.Models.Interfaces;
 
 namespace maihelper.Controllers
 {
@@ -17,28 +16,47 @@ namespace maihelper.Controllers
             _repository = repository;
         }
 
-        private readonly int LabsOnPageCount = 2;
-        private readonly int NotesOnPageCount = 2;
-        private readonly int TicketsOnPageCount = 7;
-
         [HttpPost]
-        public IActionResult ViewIndexPage()
+        public IActionResult ViewHome()
         {
-            var ReturnModel = new HomePageRetModel()
+            var result = _repository.GetAll<Work>().Where(w => w.IsOnPage).Select(w => new HomePageRetModel() { 
+                Title = w.Subject.Title,
+                SubjectId = w.SubjectId,
+                WorkType = w.WorkType
+            });
+            return Ok(result);
+        }
+
+        [HttpPost("AddNewWork")]
+        public IActionResult AddNewWork([FromBody]AdminGetModel model)
+        {
+            bool NewWorkStatus = true;
+            IEnumerable<Work> prevWorks = _repository.GetAll<Work>().Where(w => w.WorkType == model.WorkType
+                                                      && w.IsOnPage).ToArray();
+                                                     
+            foreach(var w in prevWorks)
             {
-                NewLaboratoryWorks = GetLastElements<LaboratoryWork>(LabsOnPageCount),
-                NewNots = GetLastElements<Note>(NotesOnPageCount),
-                ActualTickets = GetLastElements<Ticket>(TicketsOnPageCount)
+                if(w.SubjectId == model.SubjectId)
+                    NewWorkStatus = false;
+                else
+                {
+                    var oldWork = prevWorks.FirstOrDefault();
+                    oldWork.IsOnPage = false;
+                    _repository.Update();
+                }
+            }
+           
+            Work work = new Work()
+            {
+                Title = model.Title,
+                WorkType = model.WorkType,
+                Subject = _repository.GetById<Subject>(model.SubjectId)
             };
 
-            return Ok(ReturnModel);
-        }
+            work.IsOnPage = NewWorkStatus;
 
-        private IEnumerable<T> GetLastElements<T>(int quantity) where T : class, IWithId
-        {
-            return _repository.GetAll<T>().OrderByDescending(x => x.Id).Take(quantity);
-        }
-
-
+            _repository.AddNewItem<Work>(work);
+            return Ok();
+        }    
     }
 }

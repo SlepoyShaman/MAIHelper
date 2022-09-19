@@ -1,4 +1,4 @@
-﻿using maihelper.Models;
+﻿using maihelper.Models.Interfaces;
 
 namespace maihelper.Data
 {
@@ -23,5 +23,15 @@ namespace maihelper.Data
             }
         }
 
+        public void AddNewItem<TEntity>(TEntity entity) where TEntity : class
+        {
+            _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
+        }
+
+        public void Update()
+        {
+            _context.SaveChanges();
+        }
     }
 }

@@ -2,10 +2,10 @@
 
 namespace maihelper.Models.ExchangeModels
 {
-    public class HomePageRetModel
+    public class AdminGetModel
     {
         public string Title { get; set; }
-        public int SubjectId { get; set; }
         public WorkType WorkType { get; set; }
+        public int SubjectId { get; set; }
     }
 }

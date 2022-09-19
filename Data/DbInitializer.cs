@@ -1,66 +1,88 @@
-﻿using maihelper.Models;
+﻿using maihelper.Models.DataModels;
 
 namespace maihelper.Data
 {
-    public static class DbInitializer
+    public  static class DbInitializer
     {
-        public static void  Initialize(ApplicationDbContext context)
+        public static void Initialize(ApplicationDbContext context)
         {
-            if (context.Directions.Any())
-            {
-                return;
-            }
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
-
             Direction ProgEng = new Direction() { Code = "09.03.04" };
             Direction ICE = new Direction() { Code = "09.03.02" };
             context.Directions.AddRange(ProgEng, ICE);
 
-            Subject Programming = new Subject() { Title = "Программирование" };
+            Subject Proga = new Subject() { Title = "программирование" };
             Subject DiscretMath = new Subject() { Title = "Дискретная математика" };
-            context.Subjects.AddRange(Programming, DiscretMath);
-            
+            Subject subject = new Subject() { Title = "Схемотехника" };
+            context.Subjects.AddRange(Proga, DiscretMath, subject);
 
-            ProgEng.Subjects.Add(Programming);
+            ProgEng.Subjects.Add(Proga);
             ProgEng.Subjects.Add(DiscretMath);
-            ICE.Subjects.Add(Programming);
+            ICE.Subjects.Add(Proga);
             ICE.Subjects.Add(DiscretMath);
             context.SaveChanges();
 
-            LaboratoryWork FirstLab = new LaboratoryWork()
-            {
-                Views = 0,
-                OptionLab = 1,
-                Theme = "Вычисление суммы бесконечного числового ряда",
-                Teacher = "Чечиков Ю.Б.",
-                Author = "Denis",
-                Listing = "./path",
-                subject = Programming
+            var Works = new Work[] {
+                new Work()
+                {
+                    Title = "Сортировка массива",
+                    WorkType = WorkType.LaboratoryWork,
+                    IsOnPage = true,
+                    Subject = Proga
+                },
+
+                new Work()
+                {
+                    Title = "Строковые данные",
+                    WorkType = WorkType.LaboratoryWork,
+                    IsOnPage = false,
+                    Subject = Proga
+                },
+
+                new Work()
+                {
+                    Title = "Поиск кратчайших маршрутов в графе",
+                    WorkType = WorkType.LaboratoryWork,
+                    IsOnPage = true,
+                    Subject = DiscretMath
+                },
+
+                new Work()
+                {
+                    Title = "Понятие алгоритма",
+                    WorkType = WorkType.Note,
+                    IsOnPage = true,
+                    Subject = Proga
+                },
+
+                new Work()
+                {
+                    Title = "Понятие множества",
+                    WorkType = WorkType.Note,
+                    IsOnPage = true,
+                    Subject = DiscretMath
+                },
+
+                new Work()
+                {
+                    Title = "Билеты 1 сем",
+                    WorkType = WorkType.Ticket,
+                    IsOnPage = true,
+                    Subject = DiscretMath
+                },
+
+                new Work()
+                {
+                    Title = "Билеты 1 сем",
+                    WorkType = WorkType.Ticket,
+                    IsOnPage = true,
+                    Subject = Proga
+                }
+
             };
 
-            LaboratoryWork SecondLab = new LaboratoryWork()
-            {
-                Views = 0,
-                OptionLab = 1,
-                Theme = "Табулирование функций",
-                Teacher = "Чечиков Ю.Б.",
-                Author = "SlepoyShaman",
-                Listing = "./path",
-                subject = Programming
-            };
-            context.LaboratoryWorks.AddRange(FirstLab, SecondLab);
+            context.Works.AddRange(Works);
             context.SaveChanges();
-
-            Ticket ProgaFirst = new Ticket() { Theme = "Понятие алгоритма", subject = Programming };
-            Ticket ProgaSecond = new Ticket() { Theme = "Понятие языка программирования", subject = Programming };
-            context.Tickets.AddRange(ProgaFirst, ProgaSecond);
-            context.SaveChanges();
-
-            Note ProgaLectOne = new Note() { Theme = "Определение алгоритма и первая лабораторная работа", subject = Programming };
-            Note ProgaLectTwo = new Note() { Theme = "Указатели на массивы и функции", subject = Programming };
-            context.Notes.AddRange(ProgaLectOne, ProgaLectTwo);
-            context.SaveChanges();
+            
         }
     }
 }

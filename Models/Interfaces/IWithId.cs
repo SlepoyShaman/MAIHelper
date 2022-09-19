@@ -1,4 +1,4 @@
-﻿namespace maihelper.Models
+﻿namespace maihelper.Models.Interfaces
 {
     public interface IWithId
     {
