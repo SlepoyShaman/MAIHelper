@@ -2,10 +2,10 @@
 
 namespace maihelper.Models.ExchangeModels
 {
-    public class AdminGetModel
+    public class RemoveWorkGetModel
     {
-        public string Title { get; set; }
-        public WorkType WorkType { get; set; }
+        public int Id { get; set; }
         public int SubjectId { get; set; }
+        public WorkType WorkType { get; set; }
     }
 }

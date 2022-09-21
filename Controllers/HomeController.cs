@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using maihelper.Models.ExchangeModels;
 using maihelper.Models.DataModels;
-using maihelper.Models.Interfaces;
 
 namespace maihelper.Controllers
 {
@@ -26,37 +25,5 @@ namespace maihelper.Controllers
             });
             return Ok(result);
         }
-
-        [HttpPost("AddNewWork")]
-        public IActionResult AddNewWork([FromBody]AdminGetModel model)
-        {
-            bool NewWorkStatus = true;
-            IEnumerable<Work> prevWorks = _repository.GetAll<Work>().Where(w => w.WorkType == model.WorkType
-                                                      && w.IsOnPage).ToArray();
-                                                     
-            foreach(var w in prevWorks)
-            {
-                if(w.SubjectId == model.SubjectId)
-                    NewWorkStatus = false;
-                else
-                {
-                    var oldWork = prevWorks.FirstOrDefault();
-                    oldWork.IsOnPage = false;
-                    _repository.Update();
-                }
-            }
-           
-            Work work = new Work()
-            {
-                Title = model.Title,
-                WorkType = model.WorkType,
-                Subject = _repository.GetById<Subject>(model.SubjectId)
-            };
-
-            work.IsOnPage = NewWorkStatus;
-
-            _repository.AddNewItem<Work>(work);
-            return Ok();
-        }    
     }
 }
