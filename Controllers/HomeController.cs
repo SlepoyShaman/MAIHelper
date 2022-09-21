@@ -4,6 +4,7 @@ using maihelper.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using maihelper.Models.ExchangeModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace maihelper.Controllers
 {
@@ -12,9 +13,11 @@ namespace maihelper.Controllers
     public class HomeController : ControllerBase
     {
         private readonly IRepository _repository;
-        public HomeController(IRepository repository)
+        private readonly ApplicationDbContext _context;
+       public HomeController(IRepository repository, ApplicationDbContext context)
         {
             _repository = repository;
+            _context = context;
         }
 
         private readonly int LabsOnPageCount = 2;
@@ -24,17 +27,18 @@ namespace maihelper.Controllers
         [HttpPost]
         public IActionResult ViewIndexPage()
         {
+
             var ReturnModel = new HomePageRetModel()
             {
-                NewLaboratoryWorks = GetLastElements<LaboratoryWork>(LabsOnPageCount),
+                NewLaboratoryWorks = GetLastElements<LaboratoryWork>(LabsOnPageCount).Include(x => x.subject),
                 NewNots = GetLastElements<Note>(NotesOnPageCount),
-                ActualTickets = GetLastElements<Ticket>(TicketsOnPageCount)
+                ActualTickets = GetLastElements<Ticket>(TicketsOnPageCount),
             };
 
             return Ok(ReturnModel);
         }
 
-        private IEnumerable<T> GetLastElements<T>(int quantity) where T : class, IWithId
+        private IQueryable<T> GetLastElements<T>(int quantity) where T : class, IWithId
         {
             return _repository.GetAll<T>().OrderByDescending(x => x.Id).Take(quantity);
         }

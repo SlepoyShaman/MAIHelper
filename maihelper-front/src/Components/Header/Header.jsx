@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Search from './Search';
+import Search from '../Search';
 
 import cls from './Header.module.css';
 

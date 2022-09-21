@@ -2,7 +2,7 @@
 
 namespace maihelper.Models
 {
-    public class Direction
+    public class Direction : IWithId
     {
         [Key]
         public int Id { get; set; }
