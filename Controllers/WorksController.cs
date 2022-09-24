@@ -1,7 +1,6 @@
 ﻿using maihelper.Data;
 using maihelper.Models.DataModels;
 using maihelper.Models.ExchangeModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace maihelper.Controllers
@@ -28,7 +27,7 @@ namespace maihelper.Controllers
                                       {
                                           Title = w.Title
                                       });
-            return Ok(result);
+            return result == null ? BadRequest() : Ok(result);
         }
     }
 }

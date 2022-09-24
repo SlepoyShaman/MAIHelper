@@ -1,9 +1,8 @@
 ﻿using maihelper.Data;
 using maihelper.Models.DataModels;
 using maihelper.Models.ExchangeModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
+
 
 namespace maihelper.Controllers
 {
