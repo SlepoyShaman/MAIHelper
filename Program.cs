@@ -13,6 +13,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options => {
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = false;
 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllers();

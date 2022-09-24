@@ -54,7 +54,7 @@ namespace maihelper.Controllers
             var work = _repository.GetById<Work>(model.Id);
             if (work == null)
             {
-                return BadRequest($"The Work with id:{model.Id} do not exist");
+                return BadRequest(new { Error = $"The Work with id:{model.Id} do not exist" });
             }
             else if (work.IsOnPage)
             {

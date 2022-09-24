@@ -21,15 +21,23 @@ namespace maihelper.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody]RegistrGetModel model)
         {
-            User user = new User() { Email = model.Email, UserName = model.Email, Login = model.Login };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-                await _signInManager.SignInAsync(user, false);
-                return Ok();
-            } else
-                return BadRequest(result.Errors);
-            
+                User user = new User() { Email = model.Email, UserName = model.Email, Login = model.Login };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    return Ok();
+                }
+                else { 
+                    foreach(var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            } 
+            return BadRequest(ModelState);
         }
 
         [HttpPost("Login")]
@@ -41,7 +49,7 @@ namespace maihelper.Controllers
                 return Ok();
             }
             else
-                return BadRequest("Неверный логин и (или) пароль");
+                return BadRequest(new { Error = "Неверный логин и (или) пароль" });
         }
 
     }

@@ -27,7 +27,7 @@ namespace maihelper.Controllers
                                       {
                                           Title = w.Title
                                       });
-            return result == null ? BadRequest() : Ok(result);
+            return result == null ? BadRequest(new { Error = "Работы не найдены"} ) : Ok(result);
         }
     }
 }
