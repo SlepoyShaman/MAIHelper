@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 using maihelper.Models.DataModels;
+using maihelper.Models.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace maihelper.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
-        //Создание баз данных с каждым отношением
         public DbSet<Direction> Directions { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Work> Works { get; set; }
