@@ -20,6 +20,7 @@ namespace maihelper.Data
             if (element != null)
             {
                 _context.Set<TEntity>().Remove(element);
+                _context.SaveChanges();
             }
         }
 

@@ -2,7 +2,7 @@
 
 namespace maihelper.Models.ExchangeModels
 {
-    public class AdminGetModel
+    public class NewWorkGetModel
     {
         public string Title { get; set; }
         public WorkType WorkType { get; set; }

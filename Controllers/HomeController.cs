@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 ﻿//using maihelper.Data;
 //using Microsoft.AspNetCore.Mvc;
 //using maihelper.Models.ExchangeModels;
 //using maihelper.Models.DataModels;
 //using maihelper.Models.Interfaces;
+=======
+﻿using maihelper.Data;
+using Microsoft.AspNetCore.Mvc;
+using maihelper.Models.ExchangeModels;
+using maihelper.Models.DataModels;
+>>>>>>> c3e492c95c672736e3b155ebfc80a8106bcc1f7a
 
 //namespace maihelper.Controllers
 //{
@@ -18,6 +25,7 @@
 //            _context = context;
 //        }
 
+<<<<<<< HEAD
 //        [HttpPost]
 //        public IActionResult ViewHome()
 //        {
@@ -43,3 +51,17 @@
 //        }    
 //    }
 //}
+=======
+        [HttpPost]
+        public IActionResult ViewHome()
+        {
+            var result = _repository.GetAll<Work>().Where(w => w.IsOnPage).Select(w => new HomePageRetModel() { 
+                Title = w.Subject.Title,
+                SubjectId = w.SubjectId,
+                WorkType = w.WorkType
+            });
+            return Ok(result);
+        }
+    }
+}
+>>>>>>> c3e492c95c672736e3b155ebfc80a8106bcc1f7a

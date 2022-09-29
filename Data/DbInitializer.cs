@@ -6,6 +6,8 @@ namespace maihelper.Data
     {
         public static void Initialize(ApplicationDbContext context)
         {
+            if (context.Directions.Any()) { return; }
+
             Direction ProgEng = new Direction() { Code = "09.03.04" };
             Direction ICE = new Direction() { Code = "09.03.02" };
             context.Directions.AddRange(ProgEng, ICE);
