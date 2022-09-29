@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.bd756a20.css",
+    "main.js": "/static/js/main.2582ce65.js",
+    "static/js/787.7d82a8e2.chunk.js": "/static/js/787.7d82a8e2.chunk.js",
+    "static/media/bgOffer.png": "/static/media/bgOffer.b31691a15fc6b1afc203.png",
+    "static/media/bgBilets.png": "/static/media/bgBilets.072c7783cafcb6cfcb88.png",
+    "static/media/bgLecture.png": "/static/media/bgLecture.5a43d1d2b0b5a91863d8.png",
+    "static/media/bgLabs.png": "/static/media/bgLabs.754bd61bb1c9b95ad9b6.png",
+    "static/media/bgMap.png": "/static/media/bgMap.6405808c105f1fb15d72.png",
+    "static/media/bgArticle.png": "/static/media/bgArticle.3c63e7181cf2a7887674.png",
+    "index.html": "/index.html",
+    "static/media/bgNameCards.svg": "/static/media/bgNameCards.f4fe7b83f381728f4cea.svg",
+    "main.bd756a20.css.map": "/static/css/main.bd756a20.css.map",
+    "main.2582ce65.js.map": "/static/js/main.2582ce65.js.map",
+    "787.7d82a8e2.chunk.js.map": "/static/js/787.7d82a8e2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bd756a20.css",
+    "static/js/main.2582ce65.js"
+  ]
+}

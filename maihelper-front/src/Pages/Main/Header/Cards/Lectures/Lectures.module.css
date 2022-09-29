@@ -1,0 +1,19 @@
+.card {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    min-width: 340px;
+    min-height: 225px;
+    background: url("../../../../../img/bgLecture.png") no-repeat;
+}
+
+.Name {
+    background: url("../../../../../img/bgNameCards.png") no-repeat;
+    background-size: 90% 100%;
+    width: 90%;
+}
+
+.Name img {
+    height: 25px;
+}

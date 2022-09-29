@@ -1,0 +1,36 @@
+.header {
+    margin-top: 60px;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+}
+
+.offer {
+    padding-top: 135px;
+}
+
+.title {
+    color: #fff;
+    width: 380px;
+}
+
+.about {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    width: 345px;
+}
+
+.bgOffer {
+    position: absolute;
+    width: 45%;
+    height: 770px;
+    z-index: -1;
+    top: 105px;
+    left: 0;
+    content: "";
+    background: url("../../../img/bgOffer.png") no-repeat;
+    background-size: 100% 100%;
+}
