@@ -1,10 +1,11 @@
-﻿namespace maihelper.Models.ExchangeModels
+﻿using maihelper.Models.DataModels;
+
+namespace maihelper.Models.ExchangeModels
 {
     public class HomePageRetModel
     {
-        public IEnumerable<LaboratoryWork> NewLaboratoryWorks { get; set; }
-        public IEnumerable<Note> NewNots { get; set; }
-        public IEnumerable<Ticket> ActualTickets { get; set; }
-        
+        public string Title { get; set; }
+        public int SubjectId { get; set; }
+        public WorkType WorkType { get; set; }
     }
 }

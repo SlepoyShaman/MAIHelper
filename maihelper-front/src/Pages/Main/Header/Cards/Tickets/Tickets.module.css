@@ -1,0 +1,19 @@
+.card {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    min-width: 290px;
+    min-height: 470px;
+    background: url("../../../../../img/bgBilets.png") no-repeat;
+}
+
+.Name {
+    background: url("../../../../../img/bgNameCards.png") no-repeat;
+    background-size: 100% 100%;
+
+}
+
+.Name img {
+    height: 25px;
+}

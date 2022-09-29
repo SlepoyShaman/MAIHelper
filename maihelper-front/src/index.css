@@ -30,7 +30,9 @@ body {
 }
 
 .container {
-    max-width: 1140px;
+    max-width: 1220px;
+    padding-left: 10px;
+    padding-right: 10px;
     margin: 0 auto;
 }
 
@@ -55,3 +57,21 @@ h1 {
 }
 
 h2 {}
+
+h3 {
+    font-weight: 500;
+    font-size: 1,125rem;
+}
+
+
+.trap {
+    width: 500px;
+    height: 52px;
+    background-color: red;
+    /* border-top: 52px solid green;
+    border-left: 0 solid transparent;
+    border-right: 52px solid transparent;
+    border-top-right-radius: 25px; */
+    border-radius: 10% 0% 50% 10% / 10% 0% 50% 10%;
+  }
+

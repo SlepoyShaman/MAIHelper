@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using maihelper.Models.DataModels;
+using maihelper.Models.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace maihelper.Models
 {

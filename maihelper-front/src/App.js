@@ -1,16 +1,22 @@
 ﻿import React from 'react';
-import './App.css';
-import { BrowserRouter, Link, Route,Routes } from 'react-router-dom';
 
-import Nav from './Components/Nav';
-import Header from './Components/Header/Header';
+import Nav from './Components/Nav/Nav';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import Labs from "./Pages/Labs/Labs";
+import Main from './Pages/Main/Main';
 
 
-function App() {
+function App(props) {
     return (
-        <div className="App">
-            <Nav />
-            <Header />
+        <div>
+            <BrowserRouter>
+                <Nav />
+                <Routes>
+                    <Route path="/" element={<Main />} />
+                    <Route path="/Labs" element={<Labs />} />
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }

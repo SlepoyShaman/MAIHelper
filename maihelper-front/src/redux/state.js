@@ -1,6 +1,2 @@
-import fetchData from '../Hooks/FetchHook';
-
-let state = fetchData('Home').then(res => res);
-
-
+let state;
 export default state;
