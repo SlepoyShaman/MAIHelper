@@ -1,24 +1,24 @@
-﻿
+﻿import React from 'react';
 
-import { BrowserRouter, Link, Route,Routes } from 'react-router-dom';
-import './App.css';
+import Nav from './Components/Nav/Nav';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import Test from './Pages/Test';
-import Home from './Pages/Home';
+import Labs from "./Pages/Labs/Labs";
+import Main from './Pages/Main/Main';
 
-function App() {
-   
 
-  return (
-    <div className="App">
-     <BrowserRouter>
-     <Routes>
-      <Route path = "/" element ={<Home/>}/>
-     <Route path ="sas" element={<Test/>}/>
-     </Routes>
-      </BrowserRouter>
-    </div>
-  );
+function App(props) {
+    return (
+        <div>
+            <BrowserRouter>
+                <Nav />
+                <Routes>
+                    <Route path="/" element={<Main />} />
+                    <Route path="/Labs" element={<Labs />} />
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
