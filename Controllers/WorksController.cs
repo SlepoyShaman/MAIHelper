@@ -2,6 +2,7 @@
 using maihelper.Models.DataModels;
 using maihelper.Models.ExchangeModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace maihelper.Controllers
 {
@@ -18,16 +19,19 @@ namespace maihelper.Controllers
         private readonly int ItemsOnPageCount = 10;
 
         [HttpPost]
-        public IActionResult GetData([FromBody]WorksGetModel model)
+        public async Task<IActionResult> GetData([FromBody]WorksGetModel model)
         {
-            var result = _repository.GetAll<Work>().Where(w => w.WorkType == model.WorkType && 
+            if (model.PageNumber <= 0) model.PageNumber = 1;
+            var result = await _repository.GetAll<Work>().Where(w => w.WorkType == model.WorkType && 
                                                                w.SubjectId == model.SubjectId)
                                       .Skip(ItemsOnPageCount * (model.PageNumber - 1))
                                       .Take(ItemsOnPageCount).Select(w => new WorksRetModel()
                                       {
+                                          Id = w.Id,
                                           Title = w.Title
-                                      });
-            return result == null ? BadRequest(new { Error = "Работы не найдены"} ) : Ok(result);
+                                      }).ToArrayAsync();
+
+            return result.Any() ? Ok(result) : BadRequest(new { Error = "Работы не найдены"} );
         }
     }
 }

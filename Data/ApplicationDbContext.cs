@@ -11,9 +11,6 @@ namespace maihelper.Data
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Work> Works { get; set; }
 
-        public ApplicationDbContext (DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-                
-        }
+        public ApplicationDbContext (DbContextOptions<ApplicationDbContext> options) : base(options) { }
     }
 }

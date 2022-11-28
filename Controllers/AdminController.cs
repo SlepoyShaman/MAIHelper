@@ -3,7 +3,6 @@ using maihelper.Models.DataModels;
 using maihelper.Models.ExchangeModels;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace maihelper.Controllers
 {
     [Route("[controller]")]
@@ -11,64 +10,76 @@ namespace maihelper.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IRepository _repository;
+        private readonly List<Work> _HomePageWorkList;
+
         public AdminController(IRepository repository)
         {
             _repository = repository;
+            _HomePageWorkList = _repository.GetAll<Work>().Where(w => w.IsOnPage).ToList();
         }
 
         [HttpPost("AddNewWork")]
-        public IActionResult AddNewWork([FromBody] NewWorkGetModel model)
+        public async Task<IActionResult> AddNewWork([FromBody] NewWorkGetModel model)
         {
-            bool NewWorkStatus = true;
-            IEnumerable<Work> prevWorks = _repository.GetAll<Work>().Where(w => w.WorkType == model.WorkType
-                                                      && w.IsOnPage).ToArray();
+            try 
+            { 
+                var subject = await _repository.GetByIdAsync<Subject>(model.SubjectId);
+                bool NewWorkStatus = true;
 
-            foreach (var w in prevWorks)
-            {
-                if (w.SubjectId == model.SubjectId)
+                var prevWorks = _HomePageWorkList.Where(w => w.WorkType == model.WorkType);
+
+                if (prevWorks.Select(w => w.SubjectId).Contains(model.SubjectId))
                     NewWorkStatus = false;
                 else
                 {
-                    var oldWork = prevWorks.FirstOrDefault();
-                    oldWork.IsOnPage = false;
-                    _repository.Update();
+                    NewWorkStatus = true;
+                    Work oldWork = prevWorks.First();
+                    await _repository.UpdateWorkPageFlagAsync(oldWork);
+                    _HomePageWorkList.Remove(oldWork);
                 }
+
+                Work work = new()
+                {
+                    Title = model.Title,
+                    WorkType = model.WorkType,
+                    Subject = subject,
+                    IsOnPage = NewWorkStatus
+                };
+
+                await _repository.AddNewItemAsync<Work>(work);
+                _HomePageWorkList.Add(work);
+                return Ok();
+
             }
-
-            Work work = new Work()
-            {
-                Title = model.Title,
-                WorkType = model.WorkType,
-                Subject = _repository.GetById<Subject>(model.SubjectId)
-            };
-
-            work.IsOnPage = NewWorkStatus;
-
-            _repository.AddNewItem<Work>(work);
-            return Ok();
+            catch 
+            { 
+                return BadRequest(new { Error = $"Subject with Id: {model.SubjectId} are not exist" }); 
+            }
         }
 
         [HttpPost("RemoveWork")]
-        public IActionResult Remove([FromBody] RemoveWorkGetModel model)
+        public async Task<IActionResult> Remove([FromBody] RemoveWorkGetModel model)
         {
-            var work = _repository.GetById<Work>(model.Id);
-            if (work == null)
+            try
+            {
+                var work = await _repository.RemoveByIDAsync<Work>(model.Id);
+                if (work.IsOnPage)
+                {
+                    var alreadyOnHomePage = _HomePageWorkList.Where(w => w.WorkType == work.WorkType)
+                                                            .Select(w => w.SubjectId);
+
+                    Work? NewWorkOnHomePage = _repository.GetAll<Work>()
+                        .Where(w => w.WorkType == work.WorkType && !alreadyOnHomePage.Contains(w.SubjectId))
+                        .FirstOrDefault();
+
+                    if (NewWorkOnHomePage != null) await _repository.UpdateWorkPageFlagAsync(NewWorkOnHomePage);
+                }
+                return Ok();
+            }
+            catch
             {
                 return BadRequest(new { Error = $"The Work with id:{model.Id} do not exist" });
             }
-            else if (work.IsOnPage)
-            {
-                var NewPageWork = _repository.GetAll<Work>().Where(w => w.WorkType == work.WorkType &&
-                                                       w.IsOnPage == false &&
-                                                       w.SubjectId == work.SubjectId).FirstOrDefault();
-                if(NewPageWork != null)
-                {
-                    NewPageWork.IsOnPage = true;
-                    _repository.Update();
-                }   
-            }
-            _repository.RemoveByID<Work>(model.Id);
-            return Ok();
         }
     }
 }

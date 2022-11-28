@@ -1,4 +1,7 @@
-﻿using maihelper.Models.Interfaces;
+﻿using maihelper.Models.DataModels;
+using maihelper.Models.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace maihelper.Data
 {
@@ -10,29 +13,39 @@ namespace maihelper.Data
             _context = context;
         }
 
-        public TEntity GetById<TEntity>(int Id) where TEntity : class, IWithId
-            => _context.Set<TEntity>().FirstOrDefault(p => p.Id == Id);
+        public async Task<TEntity> GetByIdAsync<TEntity>(int Id) where TEntity : class, IWithId
+        {
+            var result = await GetAll<TEntity>().FirstOrDefaultAsync(p => p.Id == Id);
+
+            if (result != null) return result;
+            else throw new NullReferenceException();
+        }
+        
         public IQueryable<TEntity> GetAll<TEntity>() where TEntity : class
             => _context.Set<TEntity>().Select(p => p);
-        public void RemoveByID<TEntity>(int Id) where TEntity : class, IWithId
+        public async Task<TEntity> RemoveByIDAsync<TEntity>(int Id) where TEntity : class, IWithId
         {
-            TEntity element = GetById<TEntity>(Id);
+            TEntity element = await GetByIdAsync<TEntity>(Id);
             if (element != null)
             {
                 _context.Set<TEntity>().Remove(element);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+                return element;
             }
+            else throw new NullReferenceException();
         }
 
-        public void AddNewItem<TEntity>(TEntity entity) where TEntity : class
+        public async Task AddNewItemAsync<TEntity>(TEntity entity) where TEntity : class
         {
-            _context.Set<TEntity>().Add(entity);
-            _context.SaveChanges();
+            await _context.Set<TEntity>().AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update()
+        public async Task UpdateWorkPageFlagAsync(Work work) 
         {
-            _context.SaveChanges();
+            work.IsOnPage = !work.IsOnPage;
+            _context.Entry(work).Property(w => w.IsOnPage).IsModified = true;
+            await _context.SaveChangesAsync();
         }
     }
 }

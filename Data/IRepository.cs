@@ -1,14 +1,15 @@
-﻿using maihelper.Models.Interfaces;
+﻿using maihelper.Models.DataModels;
+using maihelper.Models.Interfaces;
 
 namespace maihelper.Data
 {
     public interface IRepository
     {
-        public TEntity GetById<TEntity>(int Id) where TEntity : class, IWithId;
+        public Task<TEntity> GetByIdAsync<TEntity>(int Id) where TEntity : class, IWithId;
         public IQueryable<TEntity> GetAll<TEntity>() where TEntity : class;
-        public void RemoveByID<TEntity>(int Id) where TEntity : class, IWithId;
-        public void AddNewItem<TEntity>(TEntity entity) where TEntity : class;
-        public void Update();
+        public Task<TEntity> RemoveByIDAsync<TEntity>(int Id) where TEntity : class, IWithId;
+        public Task AddNewItemAsync<TEntity>(TEntity entity) where TEntity : class;
+        public Task UpdateWorkPageFlagAsync(Work work);
 
     }
 }

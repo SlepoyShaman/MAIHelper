@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using maihelper.Models.ExchangeModels;
 using maihelper.Models.DataModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace maihelper.Controllers
 {
@@ -16,13 +17,13 @@ namespace maihelper.Controllers
         }
 
         [HttpPost]
-        public IActionResult ViewHome()
+        public async Task<IActionResult> ViewHome()
         {
-            var result = _repository.GetAll<Work>().Where(w => w.IsOnPage).Select(w => new HomePageRetModel() { 
+            var result = await _repository.GetAll<Work>().Where(w => w.IsOnPage).Select(w => new HomePageRetModel() { 
                 Title = w.Subject.Title,
                 SubjectId = w.SubjectId,
                 WorkType = w.WorkType
-            });
+            }).ToArrayAsync();
             return Ok(result);
         }
     }
